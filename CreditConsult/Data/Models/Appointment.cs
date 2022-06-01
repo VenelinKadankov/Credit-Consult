@@ -19,6 +19,9 @@ public class Appointment : BaseModel<int>
     public string? Message { get; set; }
 
     [Required]
+    public string? ClientId { get; set; }
+
+    [Required]
     [MaxLength(50)]
     public string? ClientName { get; set; }
 

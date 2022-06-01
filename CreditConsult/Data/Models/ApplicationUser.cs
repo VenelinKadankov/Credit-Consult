@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Identity;
 using CreditConsult.Data.Common.Interfaces;
+using CreditConsult.Data.Models.Enums;
 
 public class ApplicationUser : IdentityUser, IBaseModel
 {
@@ -18,7 +19,7 @@ public class ApplicationUser : IdentityUser, IBaseModel
 
     public bool IsEmployee { get; set; }
 
-    public int DepartmentId { get; set; } = 1;
+    public UserTitle? Title { get; set; }
 
     // Audit info
     public DateTime CreatedOn { get; set; }
