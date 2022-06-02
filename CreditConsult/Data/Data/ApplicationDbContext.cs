@@ -2,13 +2,14 @@
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 using CreditConsult.Data.Models;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
 {
-    public ApplicationDbContext() 
-    {
-    }
+    //public ApplicationDbContext() 
+    //{
+    //}
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -33,10 +34,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        //builder.Entity<ApplicationUser>()
-        //    .HasMany(u => u.OfferedServices)
-        //    .WithMany(s => s.Employees);
-
         base.OnModelCreating(builder);
 
         ConfigureUserIdentityRelations(builder);

@@ -5,14 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 
 using CreditConsult.Services.Interfaces;
 using CreditConsult.Services.Services;
+using CreditConsult.Services.InputModels;
+using CreditConsult.Web.Common.Extensions;
 
 public class AppointmentsController : Controller
 {
     private readonly IAppointmentService _appointmentsService;
+    private readonly IOfferedServicesService _offeredServicesService;
 
-    public AppointmentsController(AppointmentService appointmentsService)
+    public AppointmentsController(
+        IAppointmentService appointmentsService,
+        IOfferedServicesService offeredServicesService)
     {
         _appointmentsService = appointmentsService;
+        _offeredServicesService = offeredServicesService;
     }
 
     [Authorize]
@@ -23,68 +29,67 @@ public class AppointmentsController : Controller
         return this.View(appointments);
     }
 
-    //[HttpPost]
-    //[Authorize]
-    //public async Task<IActionResult> Index(AppointmentInputFormModel appointment)
-    //{
-    //    if (!this.ModelState.IsValid)
-    //    {
-    //        return this.View(appointment);
-    //    }
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Index(AppointmentInputModel appointment)
+    {
+        if (!this.ModelState.IsValid)
+        {
+            return this.View(appointment);
+        }
 
-    //    var isCreated = await this.appointmentsService.CreateAppointment(
-    //        appointment.Doctor,
-    //        appointment.Date,
-    //        appointment.Time,
-    //        appointment.PatientName,
-    //        appointment.DepartmentName,
-    //        appointment.Message,
-    //        appointment.PatientEmail,
-    //        appointment.PatientPhone,
-    //        appointment.TestName,
-    //        this.User.Identity.Name,
-    //        this.User.GetId());
+        var isCreated = await _appointmentsService.CreateAppointment(
+            appointment.Employee,
+            appointment.Date,
+            appointment.Time,
+            appointment.ClientName,
+            appointment.Message,
+            appointment.ClientEmail,
+            appointment.ClientPhone,
+            appointment.ServiceName,
+            this.User.Identity.Name,
+            this.User.GetId());
 
-    //    if (!isCreated)
-    //    {
-    //        this.TempData[InvalidCredentials] = "Invalid patient details";
+        if (!isCreated)
+        {
+            this.TempData["InvalidData"] = "Invalid client details";
 
-    //        return this.RedirectToAction(nameof(this.Index));
-    //    }
+            return this.RedirectToAction(nameof(this.Index));
+        }
 
-    //    var testModel = this.testsService.GetTest(appointment.TestName);
+        var serviceModel = _offeredServicesService.GetService(appointment.ServiceName);
 
-    //    if (testModel == null)
-    //    {
-    //        return this.BadRequest();
-    //    }
+        if (serviceModel == null)
+        {
+            return this.BadRequest();
+        }
 
-    //    var price = testModel.Price;
+        var price = serviceModel.Fee;
 
-    //    this.TempData[TempAppointmentMessage] = "You have successfully booked an appointment!";
+        this.TempData["AppointmentMessage"] = "You have successfully booked an appointment!";
 
-    //    return this.RedirectToAction(nameof(this.Pay), new { price });
-    //}
+        return this.RedirectToAction(nameof(this.MyAppointments));
+    }
 
-    //[Authorize]
-    //public IActionResult MyAppointments()
-    //{
-    //    var appointments = this.appointmentsService.MyAppointments(this.User.Identity.Name);
+    [Authorize]
+    public IActionResult MyAppointments()
+    {
+        var appointments = _appointmentsService.MyAppointments(this.User.Identity.Name);
 
-    //    return this.View(appointments);
-    //}
+        return this.View(appointments);
+    }
 
-    //[HttpPost]
-    //[Authorize]
-    //public async Task<IActionResult> Remove(int id)
-    //{
-    //    var isRemoved = await this.appointmentsService.RemoveAppointment(id);
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Remove(int id)
+    {
+        var isRemoved = await _appointmentsService.RemoveAppointment(id);
 
-    //    if (!isRemoved)
-    //    {
-    //        return this.BadRequest();
-    //    }
+        if (!isRemoved)
+        {
+            return this.BadRequest();
+        }
 
-    //    return this.RedirectToAction(nameof(this.MyAppointments));
-    //}
+        return this.RedirectToAction(nameof(this.MyAppointments));
+    }
 }

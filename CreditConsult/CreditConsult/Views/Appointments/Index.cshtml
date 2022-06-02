@@ -1,0 +1,256 @@
+﻿@model AppointmentInputModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   // var departments = this.Model.Departments.Select(x => new SelectListItem(x.Value, x.Key.ToString()));
+}
+
+<section>
+    @if (TempData.ContainsKey("InvalidData"))
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @TempData["InvalidData"]
+        </div>
+    }
+    <div class="section-title mb-5">
+        <h2>Appointments</h2>
+        <p>Book and hour</p>
+        <hr />
+    </div>
+
+
+
+    <div class="medilife-book-an-appoinment-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="appointment-form-content">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-12 col-lg-9">
+                                <div class="medilife-appointment-form">
+
+                                    @*@if (TempData.ContainsKey(MedicalCenter.Common.GlobalConstants.InvalidCredentials))
+                                        {
+                                            <div class="alert alert-danger text-center" role="alert">
+                                                @TempData[MedicalCenter.Common.GlobalConstants.InvalidCredentials]
+                                            </div>
+                                        }*@
+
+                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                    <form asp-controller="Appointments" asp-action="Index" method="post" id="form-appointment">
+                                        <div class="row align-items-end">
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-group">
+
+@*                                                    <label asp-for="DepartmentName">Department</label>
+                                                    <select asp-for="DepartmentName" class="form-control" id="departments">
+                                                        @foreach (var department in departments)
+                                                        {
+                                                            <option value="@department.Value" id="@department.Value">@(department.Text == "NoDepartment" ? "-Department-" : @department.Text)</option>
+                                                        }
+                                                    </select>*@
+                                                    @*<span asp-validation-for="@Model.DepartmentName" class="text-danger"></span>*@
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4" id="doctors-div">
+                                                @*<div class="form-group">*@
+                                                <label asp-for="Employee">Consultant</label>
+                                                <select asp-for="Employee" class="form-control" id="doctors">
+                                                    <option>-Doctor-</option>
+                                                </select>
+                                                <span asp-validation-for="Employee" class="text-danger"></span>
+                                                @*</div>*@
+                                            </div>
+                                            <div class="col-12 col-md-2">
+                                                <label asp-for="Date">Date</label>
+                                                <select asp-for="Date" class="form-control" id="dates">
+                                                    <option>-Date-</option>
+                                                </select>
+                                                <span asp-validation-for="Date" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-12 col-md-2">
+                                                <label asp-for="Time">Time</label>
+                                                <select asp-for="Time" class="form-control" id="hours">
+                                                    <option value="0">-Hours-</option>
+                                                </select>
+                                                <span asp-validation-for="Time" class="text-danger"></span>
+                                            </div>
+
+                                            <div class="col-12 col-md-4">
+                                                <label asp-for="ServiceName">Service Name</label>
+                                                <select asp-for="ServiceName" class="form-control" id="testNames">
+                                                    <option>-Test-</option>
+                                                </select>
+                                                <span asp-validation-for="ServiceName" class="text-danger"></span>
+                                            </div>
+
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="ClientName">Client Name</label>
+                                                    <input asp-for="ClientName" type="text" class="form-control" placeholder="@User.Identity.Name">
+                                                    <span asp-validation-for="ClientName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="ClientPhone">Client Phone</label>
+                                                    <input asp-for="ClientPhone" type="text" class="form-control" placeholder="0888 ...">
+                                                    <span asp-validation-for="ClientPhone" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="ClientEmail">Client Email</label>
+                                                    <input asp-for="ClientEmail" type="text" class="form-control" placeholder="@User.Identity.Name">
+                                                    <span asp-validation-for="ClientEmail" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-7">
+                                                <div class="form-group mb-0">
+                                                    <label asp-for="Message">Message</label>
+                                                    <textarea asp-for="Message" class="form-control mb-0 border-top-0 border-right-0 border-left-0" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+                                                    <span asp-validation-for="Message" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-5 mb-0">
+                                                <div class="form-group mb-0">
+                                                    <button type="submit" class="btn btn-primary medilife-btn rounded-pill">Make an Appointment</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-3">
+                                <div class="medilife-contact-info">
+                                    <!-- Single Contact Info -->
+                                    <div class="single-contact-info mb-30">
+                                        <img src="/assets/img/alarm-clock.png" alt="">
+                                        <p>Mon - Fri 09:00 - 17:00 <br>Saturday/Sunday CLOSED</p>
+                                    </div>
+                                    <!-- Single Contact Info -->
+                                    <div class="single-contact-info mb-30">
+                                        <img src="/assets/img/envelope.png" alt="">
+                                        <p>0888 888 888 <br>medicalCenterBurgas@med.com</p>
+                                    </div>
+                                    <!-- Single Contact Info -->
+                                    <div class="single-contact-info">
+                                        <img src="/assets/img/map-pin.png" alt="">
+                                        <p> 8018 Zornitsa <br>Burgas</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    <script>
+        let departmentName;
+        let currentDoctor;
+        let selecteddDate;
+
+        $(document).on('change', 'select#departments', ev => {
+            departmentName = $('#departments').val();
+
+            $("#doctors").empty();
+            $("#dates").empty();
+            $("#hours").empty();
+            $("#testNames").empty();
+            $("#doctors").append("<option>-Doctor-</option>");
+            $("#dates").append("<option>-Date-</option>");
+            $("#hours").append("<option>-Hours-</option>");
+            $("#testNames").append("<option>-Test-</option>");
+
+            if (departmentName != "1") {
+                $.get('/api/doctors', { id: departmentName }, (data) => {
+                    if (data === undefined) {
+                        $('#doctors').html();
+                    }
+
+                    let names = [];
+
+                    for (var n of data.doctors) {
+                        names.push(n.name);
+                    }
+
+                    let tests = {};
+                    for (var t of data.tests) {
+                        tests[t.name] = t.price;
+                    }
+
+                    for (var i = 0; i < names.length; i++) {
+                        var doctorName = names[i];
+
+                        $("#doctors").append("<option value=\"" + doctorName + "\" id=\"" + doctorName + "\">" + doctorName + "</option>");
+                    }
+
+                    for (var t in tests) {
+                        console.log(tests[t]);
+                        $("#testNames").append("<option value=\"" + t + "\" id=\"" + tests[t] + "\">" + t + "</option>");
+                    }
+                });
+            }
+        });
+
+        $(document).on('change', 'select#doctors', ev => {
+            currentDoctor = $('#doctors').val();
+
+            if (currentDoctor != "0") {
+                $.get('/api/dates', { name: currentDoctor }, (data) => {
+                    if (data === undefined) {
+                        $('#doctors').html();
+                    }
+
+                    let dates = [];
+
+                    for (let i = 0; i < data.length; i++) {
+                        dates.push(data[i]);
+                    }
+
+                    $("#dates").empty();
+                    $("#hours").empty();
+                    $("#dates").append("<option>-Date-</option>");
+                    $("#hours").append("<option>-Hours-</option>");
+                    for (var i = 0; i < dates.length; i++) {
+                        var date = dates[i];
+
+                        $("#dates").append("<option value=" + date + " id=" + date + ">" + date + "</option>");
+                    }
+                });
+            }
+        });
+
+        $(document).on('change', 'select#dates', ev => {
+            selecteddDate = $('#dates').val();
+
+            $.get('/api/hours', { departmentName: departmentName, doctorName: currentDoctor, date: selecteddDate }, (data) => {
+                if (data === undefined) {
+                    $('#dates').html();
+                }
+
+                let hours = [];
+
+                for (let i = 0; i < data.length; i++) {
+                    hours.push(data[i]);
+                }
+
+                $("#hours").empty();
+                $("#hours").append("<option value=0>-Hours-</option>");
+                for (var i = 0; i < hours.length; i++) {
+                    var hour = hours[i];
+
+                    $("#hours").append("<option value=" + hour.time + " id=" + hour.time + ">" + hour.time + "</option>");
+                }
+            });
+        });
+
+        /*        <partial name="_ValidationScriptsPartial" />*/
+    </script>
+}

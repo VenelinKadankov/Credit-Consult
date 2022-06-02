@@ -1,0 +1,122 @@
+﻿namespace CreditConsult.Services.Services;
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using CreditConsult.Data.Data;
+using CreditConsult.Data.Models;
+using CreditConsult.Services.Interfaces;
+using CreditConsult.Services.ViewModels;
+using Microsoft.EntityFrameworkCore;
+
+public class OfferedServicesService : IOfferedServicesService
+{
+    private readonly ApplicationDbContext _context;
+
+    public OfferedServicesService(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task Add(string title, string description, decimal price, string imageUrl)
+    {
+        if (_context.OfferedServices.Any(s => s.Title == title))
+        {
+            return;
+        }
+
+        var currentTest = new OfferedService
+        {
+            Title = title,
+            Description = description,
+            Fee = price,
+            ImageUrl = imageUrl,
+        };
+
+        await _context.OfferedServices.AddAsync(currentTest);
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AddEmployeeToService(string employeeId, int serviceId)
+    {
+        if (_context.Users.Any(s => s.Id == employeeId) && _context.OfferedServices.Any(s => s.Id == serviceId))
+        {
+            return;
+        }
+
+        var service = _context.OfferedServices.FirstOrDefault(s => s.Id == serviceId);
+        var employee = _context.Users.FirstOrDefault(u => u.Id == employeeId);
+        service.Employees.Add(employee);
+
+        await _context.SaveChangesAsync();
+    }
+
+    public int AllServicess()
+        => _context.OfferedServices.AsNoTracking().IgnoreQueryFilters().Where(x => !x.IsDeleted).Count();
+
+    public IEnumerable<ServiceViewModel> GetAllTest()
+        => _context.OfferedServices.AsNoTracking().IgnoreQueryFilters().Where(x => !x.IsDeleted)
+                .Select(s => new ServiceViewModel
+                {
+                    Description = s.Description,
+                    Id = s.Id,
+                    Title = s.Title,
+                    Fee = s.Fee,
+                });
+
+    public ServiceViewModel GetService(int id)
+    {
+
+        if (!_context.OfferedServices.Any(t => t.Id == id))
+        {
+            return null;
+        }
+
+        return _context.OfferedServices.AsNoTracking().IgnoreQueryFilters().Where(x => !x.IsDeleted)
+            .Select(x => new ServiceViewModel
+            {
+                Id = x.Id,
+                ImageUrl = x.ImageUrl,
+                Description = x.Description,
+                Title = x.Title,
+                Fee = x.Fee,
+            })
+            .FirstOrDefault(x => x.Id == id);
+    }
+
+    public ServiceViewModel GetService(string title)
+    {
+        if (!_context.OfferedServices.Any(t => t.Title == title))
+        {
+            return null;
+        }
+
+        return _context.OfferedServices.AsNoTracking().IgnoreQueryFilters().Where(x => !x.IsDeleted)
+            .Select(x => new ServiceViewModel
+            {
+                Id = x.Id,
+                ImageUrl = x.ImageUrl,
+                Description = x.Description,
+                Title = x.Title,
+                Fee = x.Fee,
+            })
+            .FirstOrDefault(x => x.Title == title);
+    }
+
+    public async Task<bool> Remove(int id)
+    {
+        if (!_context.OfferedServices.Any(t => t.Id == id))
+        {
+            return false;
+        }
+
+        _context.OfferedServices
+            .FirstOrDefault(n => n.Id == id)
+            .IsDeleted = true;
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+}

@@ -52,6 +52,9 @@ public class ScopedProcessingService : IScopedProcessingService
 
     public async Task SeedNextMonth(CancellationToken cancellationToken)
     {
+        var isSeededThisMonth = this.dbContext.AppointmentsForDays
+            .ToList()
+            .Any(d => int.Parse(d.Date!.Split(new char[] { '/', ' ' })[1]) == DateTime.UtcNow.Month);
         var isSeededNextMonth = this.dbContext.AppointmentsForDays
             .ToList()
             .Any(d => int.Parse(d.Date!.Split(new char[] { '/', ' ' })[1]) == DateTime.UtcNow.Month + 1);
@@ -60,19 +63,24 @@ public class ScopedProcessingService : IScopedProcessingService
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            if (DateTime.UtcNow.Day >= 14 && isDatabaseCreated && !isSeededNextMonth)
+            if (!isSeededThisMonth)
             {
-                this.SeedNextMonthAppointmentsSchedule();
+                this.SeedMonthlyAppointmentsSchedule(DateTime.UtcNow.Month);
             }
 
-            await Task.Delay(1000 * 60 * 60 * 24, cancellationToken);
+            if (DateTime.UtcNow.Day >= 14 && isDatabaseCreated && !isSeededNextMonth)
+            {
+                this.SeedMonthlyAppointmentsSchedule(DateTime.UtcNow.Month + 1);
+            }
+
+            await Task.Delay(1000, cancellationToken);//1000 * 60 * 60 * 24, cancellationToken);
         }
     }
 
-    public void SeedNextMonthAppointmentsSchedule()
+    public void SeedMonthlyAppointmentsSchedule(int monthNumber)
     {
         var users = this.dbContext.Users.Where(u => u.IsEmployee).ToList();
-        var daysTillEndOfMonth = this.AllDates();
+        var daysTillEndOfMonth = this.AllDates(monthNumber);
 
         foreach (var user in users)
         {
@@ -118,12 +126,12 @@ public class ScopedProcessingService : IScopedProcessingService
         }
     }
 
-    private IEnumerable<string> AllDates()
+    private IEnumerable<string> AllDates(int monthNumber)
     {
         var date = 0;
         var month = (DateTime.UtcNow.Month + 1).ToString();
 
-        var day = this.GetFirstDayNextMonth(DateTime.UtcNow.Month + 1);
+        var day = this.GetFirstDayNextMonth(monthNumber);
 
         this.rotateBeforeStart = CheckRotations(day);
 
