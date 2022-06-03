@@ -1,4 +1,4 @@
-﻿namespace MedicalCenter.Data.Seeding;
+﻿namespace CreditConsult.Data.Seeding;
 
 using System;
 using System.Threading.Tasks;

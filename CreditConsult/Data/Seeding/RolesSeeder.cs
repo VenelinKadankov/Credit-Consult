@@ -1,12 +1,13 @@
-﻿namespace MedicalCenter.Data.Seeding;
+﻿namespace CreditConsult.Data.Seeding;
 
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using CreditConsult.Data.Data;
-using CreditConsult.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+
+using CreditConsult.Data.Data;
+using CreditConsult.Data.Models;
 
 internal class RolesSeeder : ISeeder
 {

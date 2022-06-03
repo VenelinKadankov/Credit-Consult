@@ -1,14 +1,15 @@
-﻿namespace MedicalCenter.Data.Seeding
+﻿namespace CreditConsult.Data.Seeding
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.DependencyInjection;
+
     using CreditConsult.Data.Data;
     using CreditConsult.Data.Models;
     using CreditConsult.Data.Models.Enums;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.DependencyInjection;
 
     public class EmployeesSeeder : ISeeder
     {

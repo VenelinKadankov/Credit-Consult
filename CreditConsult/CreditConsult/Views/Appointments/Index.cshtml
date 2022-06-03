@@ -39,8 +39,8 @@
                                     <div asp-validation-summary="All" class="text-danger"></div>
                                     <form asp-controller="Appointments" asp-action="Index" method="post" id="form-appointment">
                                         <div class="row align-items-end">
-                                            <div class="col-12 col-md-4">
-                                                <div class="form-group">
+                                           @* <div class="col-12 col-md-4">
+                                                <div class="form-group">*@
 
                                                     @*                                                    <label asp-for="DepartmentName">Department</label>
                                                     <select asp-for="DepartmentName" class="form-control" id="departments">
@@ -50,13 +50,13 @@
                                                     }
                                                     </select>*@
                                                     @*<span asp-validation-for="@Model.DepartmentName" class="text-danger"></span>*@
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-4" id="doctors-div">
+                                            @*    </div>
+                                            </div>*@
+                                            <div class="col-12 col-md-4" id="employees-div">
                                                 @*<div class="form-group">*@
                                                 <label asp-for="Employee">Consultant</label>
-                                                <select asp-for="Employee" class="form-control" id="doctors">
-                                                    <option>-Doctor-</option>
+                                                <select asp-for="Employee" class="form-control" id="employees">
+                                                    <option>-Consultant-</option>
                                                 </select>
                                                 <span asp-validation-for="Employee" class="text-danger"></span>
                                                 @*</div>*@
@@ -78,7 +78,7 @@
 
                                             <div class="col-12 col-md-4">
                                                 <label asp-for="ServiceName">Service Name</label>
-                                                <select asp-for="ServiceName" class="form-control" id="testNames">
+                                                <select asp-for="ServiceName" class="form-control" id="servicesNames">
                                                     <option>-Test-</option>
                                                 </select>
                                                 <span asp-validation-for="ServiceName" class="text-danger"></span>
@@ -126,17 +126,17 @@
                                 <div class="medilife-contact-info">
                                     <!-- Single Contact Info -->
                                     <div class="single-contact-info mb-30">
-                                        <img src="/assets/img/alarm-clock.png" alt="">
+                                        @*<img src="/assets/img/alarm-clock.png" alt="">*@
                                         <p>Mon - Fri 09:00 - 17:00 <br>Saturday/Sunday CLOSED</p>
                                     </div>
                                     <!-- Single Contact Info -->
                                     <div class="single-contact-info mb-30">
-                                        <img src="/assets/img/envelope.png" alt="">
-                                        <p>0888 888 888 <br>medicalCenterBurgas@med.com</p>
+                                        @*<img src="/assets/img/envelope.png" alt="">*@
+                                        <p>0888 888 888 <br>creditConsult@abv.bg</p>
                                     </div>
                                     <!-- Single Contact Info -->
                                     <div class="single-contact-info">
-                                        <img src="/assets/img/map-pin.png" alt="">
+                                        @*<img src="/assets/img/map-pin.png" alt="">*@
                                         <p> 8018 Zornitsa <br>Burgas</p>
                                     </div>
                                 </div>
@@ -152,58 +152,56 @@
 
 @section Scripts {
     <script>
-        let departmentName;
-        let currentDoctor;
+        let currentEmployee;
         let selecteddDate;
 
-        $(document).on('load', ev => {
-            departmentName = $('#departments').val();
+        $(window).on('load', ev => {
 
-            $("#doctors").empty();
+            $("#employees").empty();
             $("#dates").empty();
             $("#hours").empty();
-            $("#testNames").empty();
-            $("#doctors").append("<option>-Doctor-</option>");
+            $("#servicesNames").empty();
+            $("#employees").append("<option>-Consultant-</option>");
             $("#dates").append("<option>-Date-</option>");
             $("#hours").append("<option>-Hours-</option>");
-            $("#testNames").append("<option>-Test-</option>");
+            $("#servicesNames").append("<option>-Service-</option>");
 
-            $.get('/api/employees', (data) => {
+            $.get('https://localhost:7293/api/employees', (data) => {
                 if (data === undefined) {
-                    $('#doctors').html();
+                    $('#employees').html();
                 }
 
                 let names = [];
 
-                for (var n of data.doctors) {
+                for (var n of data.employees) {
                     names.push(n.name);
                 }
 
-                let tests = {};
-                for (var t of data.tests) {
-                    tests[t.name] = t.price;
+                let services = {};
+                for (var t of data.services) {
+                    services[t.title] = t.fee;
                 }
 
                 for (var i = 0; i < names.length; i++) {
-                    var doctorName = names[i];
+                    var empName = names[i];
 
-                    $("#doctors").append("<option value=\"" + doctorName + "\" id=\"" + doctorName + "\">" + doctorName + "</option>");
+                    $("#employees").append("<option value=\"" + empName + "\" id=\"" + empName + "\">" + empName + "</option>");
                 }
 
-                for (var t in tests) {
-                    console.log(tests[t]);
-                    $("#testNames").append("<option value=\"" + t + "\" id=\"" + tests[t] + "\">" + t + "</option>");
+                for (var t in services) {
+                    console.log(services[t]);
+                    $("#servicesNames").append("<option value=\"" + t + "\" id=\"" + services[t] + "\">" + t + "</option>");
                 }
             });
         });
 
-        $(document).on('change', 'select#doctors', ev => {
-            currentDoctor = $('#doctors').val();
+        $(document).on('change', 'select#employees', ev => {
+            currentDoctor = $('#employees').val();
 
             if (currentDoctor != "0") {
-                $.get('/api/dates', { name: currentDoctor }, (data) => {
+                $.get('/api/dates', { name: currentEmployee }, (data) => {
                     if (data === undefined) {
-                        $('#doctors').html();
+                        $('#employees').html();
                     }
 
                     let dates = [];
@@ -228,7 +226,7 @@
         $(document).on('change', 'select#dates', ev => {
             selecteddDate = $('#dates').val();
 
-            $.get('/api/hours', { departmentName: departmentName, doctorName: currentDoctor, date: selecteddDate }, (data) => {
+            $.get('/api/hours', { doctorName: currentEmployee, date: selecteddDate }, (data) => {
                 if (data === undefined) {
                     $('#dates').html();
                 }

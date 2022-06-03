@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 using CreditConsult.Data.Data;
 using CreditConsult.Data.Seeding.SeedScheduleHosted;
@@ -6,7 +7,7 @@ using CreditConsult.Data.Seeding.SeedScheduleHosted.Interfaces;
 using CreditConsult.Services.Interfaces;
 using CreditConsult.Services.Services;
 using CreditConsult.Data.Models;
-using MedicalCenter.Data.Seeding;
+using CreditConsult.Data.Seeding;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,10 +25,36 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+
+var allowedOrigins = "_myAllowSpecificOrigins";
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: allowedOrigins,
+//                      policy =>
+//                      {
+//                          policy.WithOrigins("https://localhost:7293", "http://localhost:5293")
+//                           .AllowAnyHeader()
+//                           .AllowAnyMethod();
+//                      });
+//});
+
+builder.Services.Configure<CookiePolicyOptions>(
+    options =>
+    {
+        options.CheckConsentNeeded = context => true;
+        options.MinimumSameSitePolicy = SameSiteMode.None;
+    });
+
+builder.Services.AddControllersWithViews(
+    options =>
+    {
+        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+    });
 
 builder.Services.AddTransient<IAppointmentService, AppointmentService>();
 builder.Services.AddTransient<IOfferedServicesService, OfferedServicesService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 // Hosted service
 builder.Services.AddHostedService<ConsumeScopedHostedService>();

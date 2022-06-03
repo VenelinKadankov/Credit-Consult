@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreditConsult.Web", "CreditConsult\CreditConsult.Web.csproj", "{F0555C16-01BA-4301-B672-F39AB1114407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreditConsult.Web", "CreditConsult\CreditConsult.Web.csproj", "{F0555C16-01BA-4301-B672-F39AB1114407}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreditConsult.Data", "Data\CreditConsult.Data.csproj", "{75890615-A57B-4F4A-844C-24E1E0500BC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreditConsult.Data", "Data\CreditConsult.Data.csproj", "{75890615-A57B-4F4A-844C-24E1E0500BC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreditConsult.Services", "CreditConsult.Services\CreditConsult.Services.csproj", "{3727140A-FD6B-4575-9A17-1F1D3B65F4DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreditConsult.Services", "CreditConsult.Services\CreditConsult.Services.csproj", "{3727140A-FD6B-4575-9A17-1F1D3B65F4DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
