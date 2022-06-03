@@ -9,7 +9,6 @@ public interface IAppointmentService
     IEnumerable<string> AllDates(string name);
 
     IEnumerable<FreeHourModel> AllFreeHours(
-        string serviceName,
         string employeeName,
         string date);
 

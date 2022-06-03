@@ -17,11 +17,10 @@ public class HoursApiController : ControllerBase
 
     [HttpGet]
     public IEnumerable<FreeHourModel> Get(
-        string departmentName,
-        string doctorName,
+        string employeeName,
         string date)
     {
-        var hours = _appointmentsService.AllFreeHours(departmentName, doctorName, date);
+        var hours = _appointmentsService.AllFreeHours(employeeName, date);
 
         if (hours == null)
         {

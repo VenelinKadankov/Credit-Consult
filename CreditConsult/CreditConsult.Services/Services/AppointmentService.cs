@@ -47,7 +47,7 @@ public class AppointmentService : IAppointmentService
         return listOfDates;
     }
 
-    public IEnumerable<FreeHourModel> AllFreeHours(string serviceName, string employeeName, string date)
+    public IEnumerable<FreeHourModel> AllFreeHours(string employeeName, string date)
     {
         var employee = _context.Users
             .Where(d => d.UserName == employeeName)

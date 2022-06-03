@@ -196,10 +196,10 @@
         });
 
         $(document).on('change', 'select#employees', ev => {
-            currentDoctor = $('#employees').val();
+            currentEmployee = $('#employees').val();
 
-            if (currentDoctor != "0") {
-                $.get('/api/dates', { name: currentEmployee }, (data) => {
+            if (currentEmployee != "0") {
+                $.get('https://localhost:7293/api/dates', { name: currentEmployee }, (data) => {
                     if (data === undefined) {
                         $('#employees').html();
                     }
@@ -226,7 +226,7 @@
         $(document).on('change', 'select#dates', ev => {
             selecteddDate = $('#dates').val();
 
-            $.get('/api/hours', { doctorName: currentEmployee, date: selecteddDate }, (data) => {
+            $.get('https://localhost:7293/api/hours', { employeeName: currentEmployee, date: selecteddDate }, (data) => {
                 if (data === undefined) {
                     $('#dates').html();
                 }
