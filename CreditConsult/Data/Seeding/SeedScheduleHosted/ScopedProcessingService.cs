@@ -55,6 +55,7 @@ public class ScopedProcessingService : IScopedProcessingService
         var isSeededThisMonth = this.dbContext.AppointmentsForDays
             .ToList()
             .Any(d => int.Parse(d.Date!.Split(new char[] { '/', ' ' })[1]) == DateTime.UtcNow.Month);
+
         var isSeededNextMonth = this.dbContext.AppointmentsForDays
             .ToList()
             .Any(d => int.Parse(d.Date!.Split(new char[] { '/', ' ' })[1]) == DateTime.UtcNow.Month + 1);
@@ -73,7 +74,7 @@ public class ScopedProcessingService : IScopedProcessingService
                 this.SeedMonthlyAppointmentsSchedule(DateTime.UtcNow.Month + 1);
             }
 
-            await Task.Delay(1000, cancellationToken);//1000 * 60 * 60 * 24, cancellationToken);
+            await Task.Delay(1000 * 60 * 60 * 24, cancellationToken);
         }
     }
 
@@ -105,7 +106,7 @@ public class ScopedProcessingService : IScopedProcessingService
                     var appointmentHour = new HourForAppontment
                     {
                         Time = hour,
-                        Id = appointmentsForDay.Id,
+                        DailyAppointmentsId = appointmentsForDay.Id,
                     };
 
                     this.dbContext.HourForAppontments.Add(appointmentHour);
@@ -129,7 +130,7 @@ public class ScopedProcessingService : IScopedProcessingService
     private IEnumerable<string> AllDates(int monthNumber)
     {
         var date = 0;
-        var month = (DateTime.UtcNow.Month + 1).ToString();
+        var month = (monthNumber).ToString();
 
         var day = this.GetFirstDayNextMonth(monthNumber);
 

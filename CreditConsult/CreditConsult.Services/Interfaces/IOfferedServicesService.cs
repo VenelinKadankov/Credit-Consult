@@ -20,5 +20,5 @@ public interface IOfferedServicesService
 
     ServiceViewModel GetService(string name);
 
-    IEnumerable<ServiceViewModel> GetAllTest();
+    IEnumerable<ServiceViewModel> GetAllServices();
 }

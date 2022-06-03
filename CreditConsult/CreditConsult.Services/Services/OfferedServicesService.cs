@@ -55,7 +55,7 @@ public class OfferedServicesService : IOfferedServicesService
     public int AllServicess()
         => _context.OfferedServices.AsNoTracking().IgnoreQueryFilters().Where(x => !x.IsDeleted).Count();
 
-    public IEnumerable<ServiceViewModel> GetAllTest()
+    public IEnumerable<ServiceViewModel> GetAllServices()
         => _context.OfferedServices.AsNoTracking().IgnoreQueryFilters().Where(x => !x.IsDeleted)
                 .Select(s => new ServiceViewModel
                 {

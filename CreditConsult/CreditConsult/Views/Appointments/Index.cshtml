@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-   // var departments = this.Model.Departments.Select(x => new SelectListItem(x.Value, x.Key.ToString()));
+    // var departments = this.Model.Departments.Select(x => new SelectListItem(x.Value, x.Key.ToString()));
 }
 
 <section>
@@ -30,11 +30,11 @@
                                 <div class="medilife-appointment-form">
 
                                     @*@if (TempData.ContainsKey(MedicalCenter.Common.GlobalConstants.InvalidCredentials))
-                                        {
-                                            <div class="alert alert-danger text-center" role="alert">
-                                                @TempData[MedicalCenter.Common.GlobalConstants.InvalidCredentials]
-                                            </div>
-                                        }*@
+                                    {
+                                    <div class="alert alert-danger text-center" role="alert">
+                                    @TempData[MedicalCenter.Common.GlobalConstants.InvalidCredentials]
+                                    </div>
+                                    }*@
 
                                     <div asp-validation-summary="All" class="text-danger"></div>
                                     <form asp-controller="Appointments" asp-action="Index" method="post" id="form-appointment">
@@ -42,12 +42,12 @@
                                             <div class="col-12 col-md-4">
                                                 <div class="form-group">
 
-@*                                                    <label asp-for="DepartmentName">Department</label>
+                                                    @*                                                    <label asp-for="DepartmentName">Department</label>
                                                     <select asp-for="DepartmentName" class="form-control" id="departments">
-                                                        @foreach (var department in departments)
-                                                        {
-                                                            <option value="@department.Value" id="@department.Value">@(department.Text == "NoDepartment" ? "-Department-" : @department.Text)</option>
-                                                        }
+                                                    @foreach (var department in departments)
+                                                    {
+                                                    <option value="@department.Value" id="@department.Value">@(department.Text == "NoDepartment" ? "-Department-" : @department.Text)</option>
+                                                    }
                                                     </select>*@
                                                     @*<span asp-validation-for="@Model.DepartmentName" class="text-danger"></span>*@
                                                 </div>
@@ -156,7 +156,7 @@
         let currentDoctor;
         let selecteddDate;
 
-        $(document).on('change', 'select#departments', ev => {
+        $(document).on('load', ev => {
             departmentName = $('#departments').val();
 
             $("#doctors").empty();
@@ -168,35 +168,33 @@
             $("#hours").append("<option>-Hours-</option>");
             $("#testNames").append("<option>-Test-</option>");
 
-            if (departmentName != "1") {
-                $.get('/api/doctors', { id: departmentName }, (data) => {
-                    if (data === undefined) {
-                        $('#doctors').html();
-                    }
+            $.get('/api/employees', (data) => {
+                if (data === undefined) {
+                    $('#doctors').html();
+                }
 
-                    let names = [];
+                let names = [];
 
-                    for (var n of data.doctors) {
-                        names.push(n.name);
-                    }
+                for (var n of data.doctors) {
+                    names.push(n.name);
+                }
 
-                    let tests = {};
-                    for (var t of data.tests) {
-                        tests[t.name] = t.price;
-                    }
+                let tests = {};
+                for (var t of data.tests) {
+                    tests[t.name] = t.price;
+                }
 
-                    for (var i = 0; i < names.length; i++) {
-                        var doctorName = names[i];
+                for (var i = 0; i < names.length; i++) {
+                    var doctorName = names[i];
 
-                        $("#doctors").append("<option value=\"" + doctorName + "\" id=\"" + doctorName + "\">" + doctorName + "</option>");
-                    }
+                    $("#doctors").append("<option value=\"" + doctorName + "\" id=\"" + doctorName + "\">" + doctorName + "</option>");
+                }
 
-                    for (var t in tests) {
-                        console.log(tests[t]);
-                        $("#testNames").append("<option value=\"" + t + "\" id=\"" + tests[t] + "\">" + t + "</option>");
-                    }
-                });
-            }
+                for (var t in tests) {
+                    console.log(tests[t]);
+                    $("#testNames").append("<option value=\"" + t + "\" id=\"" + tests[t] + "\">" + t + "</option>");
+                }
+            });
         });
 
         $(document).on('change', 'select#doctors', ev => {

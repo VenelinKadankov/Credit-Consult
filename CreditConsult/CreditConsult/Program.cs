@@ -51,8 +51,8 @@ else
 using (var serviceScope = app.Services.CreateScope())
 {
     var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.EnsureCreated();
     dbContext.Database.Migrate();
+    dbContext.Database.EnsureCreated();
     new ApplicationDbContextSeeder()
         .SeedAsync(dbContext, serviceScope.ServiceProvider)
         .GetAwaiter()

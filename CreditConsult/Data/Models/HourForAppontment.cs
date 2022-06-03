@@ -5,7 +5,7 @@ using CreditConsult.Data.Common;
 
 public class HourForAppontment : BaseModel<int>
 {
-    //public int DailyAppointmentsId { get; init; }
+    public int DailyAppointmentsId { get; init; }
 
     public AppointmentsForDay? DailyAppointments { get; set; }
 

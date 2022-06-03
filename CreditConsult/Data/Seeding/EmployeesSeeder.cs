@@ -60,8 +60,9 @@
                     throw new Exception(string.Join(Environment.NewLine, result.Errors.Select(e => e.Description)));
                 }
 
-                await dbContext.AddRangeAsync(users);
             }
+
+           // await dbContext.AddRangeAsync(users);
         }
     }
 }
