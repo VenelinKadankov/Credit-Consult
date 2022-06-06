@@ -65,7 +65,7 @@ public class AppointmentService : IAppointmentService
         var appointmentsForDayId = appointmentsForDay.Id;
 
         var employeeAppointmentsHours = _context.HourForAppontments
-            .Where(h => h.Id == appointmentsForDayId);
+            .Where(h => h.DailyAppointmentsId == appointmentsForDayId);
 
         var hours = employeeAppointmentsHours
             .Where(x => !x.IsDeleted)

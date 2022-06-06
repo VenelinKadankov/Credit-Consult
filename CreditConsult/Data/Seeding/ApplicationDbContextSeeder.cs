@@ -28,6 +28,7 @@ public class ApplicationDbContextSeeder : ISeeder
                       {
                           new RolesSeeder(),
                           new EmployeesSeeder(),
+                          new OfferedServicesSeeder(),
                       };
 
         foreach (var seeder in seeders)
