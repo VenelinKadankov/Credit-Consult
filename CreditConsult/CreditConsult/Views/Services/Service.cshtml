@@ -1,0 +1,26 @@
+﻿@model ServiceViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<section>
+    <div class="section-title">
+        <h2>Service</h2>
+        <p>@Model.Title</p>
+    </div>
+
+    <div class="card col-md-8 offset-2 text-center">
+        <div class="card-body">
+            <img class="img-fluid" src="@Model.ImageUrl" />
+            <p class="card-text">@Model.Description</p>
+            <p class="card-text">@Model.Fee</p>
+            <a asp-controller="Services" asp-action="Index" class="btn appointment-btn rounded-pill">Go back</a>
+
+@*            @if (this.User.IsInRole("Administrator"))
+            {
+                <a asp-controller="Services" asp-action="Edit" class="btn appointment-btn edit-btn rounded-pill">Edit</a>
+                <a asp-controller="Services" asp-action="Remove" class="btn appointment-btn remove-btn rounded-pill">Remove</a>
+            }*@
+        </div>
+    </div>
+</section>

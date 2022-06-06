@@ -1,5 +1,54 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<ServiceViewModel>
+
 @{
+    ViewData["Title"] = "All Services";
+}
+
+
+<section>
+    <div class="section-title">
+        <h2>Offered Services</h2>
+    </div>
+
+    @if (this.User.IsInRole("Administrator"))
+    {
+        <hr />
+        <div class="mb-3 mt-5 add-service-admin">
+            <h4 class="bg-warning add-service-title">Add new service</h4>
+            <a asp-controller="Services" asp-action="Add" class="btn appointment-btn rounded-pill mb-3" id="add-service-btn"> Add </a>
+        </div>
+        <hr />
+    }
+
+    @if (!Model.Any())
+    {
+        <h2 class="text-center">No services found!</h2>
+    }
+
+    <form method="post">
+        <div class="row">
+            @foreach (var service in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <img class="card-img-top" src="@service.ImageUrl" alt="@service.Title">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-center">@service.Title - @service.Fee</h5>
+                            <a asp-controller="Services" asp-action="Service" asp-route-id="@service.Id" asp-route-info="@service?.Title?.Replace(" ", "-")" style="background-color: #5cb85c" class="btn appointment-btn rounded-pill mt-3">View More</a>
+                            @if (this.User.IsInRole("Administrator"))
+                            {
+                                <a asp-controller="Services" asp-action="Edit"  asp-route-id="@service.Id" asp-route-info="@service?.Title?.Replace(" ", "-")" class="btn btn-danger rounded-pill mt-3">Edit</a>
+                                <button asp-controller="Services" asp-action="Remove" asp-route-id="@service.Id" asp-route-info="@service?.Title?.Replace(" ", "-")" class="btn btn-danger rounded-pill mt-3">Remove</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </form>
+
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -63,6 +63,7 @@ public class OfferedServicesService : IOfferedServicesService
                     Id = s.Id,
                     Title = s.Title,
                     Fee = s.Fee,
+                    ImageUrl = s.ImageUrl
                 });
 
     public ServiceViewModel GetService(int id)
