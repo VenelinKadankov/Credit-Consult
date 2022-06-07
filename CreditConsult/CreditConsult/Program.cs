@@ -8,6 +8,8 @@ using CreditConsult.Services.Interfaces;
 using CreditConsult.Services.Services;
 using CreditConsult.Data.Models;
 using CreditConsult.Data.Seeding;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +24,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -51,6 +53,8 @@ builder.Services.AddControllersWithViews(
     {
         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
     });
+
+builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<IAppointmentService, AppointmentService>();
 builder.Services.AddTransient<IOfferedServicesService, OfferedServicesService>();

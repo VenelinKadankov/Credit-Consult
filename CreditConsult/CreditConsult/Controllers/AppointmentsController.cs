@@ -70,7 +70,7 @@ public class AppointmentsController : Controller
         return RedirectToAction(nameof(MyAppointments));
     }
 
-    [Authorize]
+    [Authorize(Roles = "Administrator, Client")]
     public IActionResult MyAppointments()
     {
         var appointments = _appointmentsService.MyAppointments(User.Identity.Name);
@@ -79,7 +79,7 @@ public class AppointmentsController : Controller
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Administrator, Client")]
     public async Task<IActionResult> Remove(int id)
     {
         var isRemoved = await _appointmentsService.RemoveAppointment(id);

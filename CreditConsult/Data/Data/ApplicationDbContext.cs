@@ -2,9 +2,9 @@
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 using CreditConsult.Data.Models;
-using System.Reflection;
 using CreditConsult.Data.Common.Interfaces;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>

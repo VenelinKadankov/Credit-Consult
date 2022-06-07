@@ -35,7 +35,7 @@
                                     <p>Date: @appointment.Date</p>
                                     <p>Time: @appointment.Time</p>
                                     <div class="text-center">
-                                        <input type="submit" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointment.Id" class="btn btn-danger rounded-pill mt-3" value="Cancel Appointment" />
+                                        <input type="submit" onclick="confirm('Are you sure?')" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointment.Id" class="btn btn-danger rounded-pill mt-3" value="Cancel Appointment" />
                                     </div>
                                 </div>
                             </div>
