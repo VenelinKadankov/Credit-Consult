@@ -64,7 +64,7 @@ public class ServicesController : Controller
     }
 
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> Edit(int id)
+    public IActionResult Edit(int id)
     {
         var service = _offeredService.GetService(id);
 

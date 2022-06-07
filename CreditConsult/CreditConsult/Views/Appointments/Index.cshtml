@@ -28,7 +28,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-12 col-lg-9">
                                 <div class="appointment-form">
-                                    @*<div asp-validation-summary="All" class="text-danger"></div>*@
+                                    <div asp-validation-summary="All" class="text-danger"></div>
                                     <form asp-controller="Appointments" asp-action="Index" method="post" id="form-appointment">
                                         <div class="row align-items-end">
                                             <div class="col-12 col-md-4" id="employees-div">
@@ -87,13 +87,15 @@
                                                 <div class="form-group mb-0">
                                                     <label asp-for="Message">Message</label>
                                                     <textarea asp-for="Message" class="form-control mb-0 border-top-0 border-right-0 border-left-0" id="message" cols="30" rows="10" placeholder="Message"></textarea>
-                                                    @*<span asp-validation-for="Message" class="text-danger"></span>*@
+                                                    <span asp-validation-for="Message" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-5 mb-0">
                                                 <div class="form-group mb-0">
-                                                    <button type="submit" asp-controller="Appointments" asp-action="Index"  data-content="@Model"
-                                                        class="btn btn-primary rounded-pill">Make an Appointment</button>
+                                                    <button id="submit" type="submit" asp-controller="Appointments" asp-action="Index" asp-route-info="@Model" 
+                                                        data-content="@Model" class="btn btn-primary rounded-pill">
+                                                        Make an Appointment
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -126,6 +128,21 @@
 
 
 @section Scripts {
+@*        <script>
+        $("#submit").click(function(e) {
+            e.preventDefault();
+            var data = $('#form-appointment').serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Appointments/Index?@Model",
+                data: data,
+                success: function(response) {
+                    window.location.href = "/Appointments/MyAppointments";
+                }
+            });
+        })
+    </script>*@
+
     <script>
         let currentEmployee;
         let selecteddDate;

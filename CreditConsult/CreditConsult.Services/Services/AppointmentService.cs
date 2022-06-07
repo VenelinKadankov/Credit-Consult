@@ -91,15 +91,15 @@ public class AppointmentService : IAppointmentService
             return false;
         }
 
-        var patient = _context.Users
+        var client = _context.Users
             .FirstOrDefault(x => x.UserName == clientName && x.Email == clientEmail);
 
         var user = _context.Users
             .FirstOrDefault(u => u.Id == currentUserId);
 
-        if (patient == null ||
+        if (client == null ||
             user == null ||
-            user != patient)
+            user != client)
         {
             return false;
         }
@@ -114,9 +114,16 @@ public class AppointmentService : IAppointmentService
 
         var dailyAppsId = dailyApps.Id;
 
-        _context.HourForAppontments
-            .FirstOrDefault(h => h.Id == dailyAppsId && h.Time == time).IsDeleted = true;
+        var hour = _context.HourForAppontments
+            .FirstOrDefault(h => h.DailyAppointmentsId == dailyAppsId && h.Time == time);
 
+        if (hour == null)
+        {
+            return false;
+        }
+
+        hour.IsDeleted = true;
+        hour.DeletedOn = DateTime.UtcNow;
         await _context.SaveChangesAsync();
 
         var appointment = new Appointment
@@ -126,6 +133,7 @@ public class AppointmentService : IAppointmentService
             ClientEmail = clientEmail,
             ClientName = clientName,
             ClientPhone = clientPhone,
+            ClientId = currentUserId,
             Time = time,
             Message = message,
             ServiceName = serviceName,
@@ -168,7 +176,7 @@ public class AppointmentService : IAppointmentService
             ClientId = client.Id,
             Date = appointment.Date,
             Time = appointment.Time,
-            ClientEmail=client.Email,
+            ClientEmail = client.Email,
             ClientPhone = client.PhoneNumber,
             Message = appointment.Message,
             ServiceName = appointment.ServiceName
@@ -209,7 +217,7 @@ public class AppointmentService : IAppointmentService
     public async Task<bool> RemoveAppointment(int id)
     {
         var appointment = _context.Appointments
-    .FirstOrDefault(a => a.Id == id);
+            .FirstOrDefault(a => a.Id == id);
 
         if (appointment == null)
         {
@@ -231,9 +239,16 @@ public class AppointmentService : IAppointmentService
             return false;
         }
 
-        _context.HourForAppontments.IgnoreQueryFilters()
-            .FirstOrDefault(h => h.Id == dailyApps.Id && h.Time == time)
-            .IsDeleted = false;
+        var hour = _context.HourForAppontments.IgnoreQueryFilters()
+            .FirstOrDefault(h => h.DailyAppointmentsId == dailyApps.Id && h.Time == time);
+
+        if (hour == null)
+        {
+            return false;
+        }
+
+        hour.IsDeleted = false;
+        hour.DeletedOn = null;
 
         await _context.SaveChangesAsync();
 

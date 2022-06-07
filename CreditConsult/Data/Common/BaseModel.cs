@@ -1,6 +1,7 @@
 ﻿namespace CreditConsult.Data.Common;
 
 using System.ComponentModel.DataAnnotations;
+
 using CreditConsult.Data.Common.Interfaces;
 
 public abstract class BaseModel<TKey> : IBaseModel

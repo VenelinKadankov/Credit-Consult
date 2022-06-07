@@ -29,7 +29,7 @@ public class AppointmentsController : Controller
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Administrator, Client")]
     public async Task<IActionResult> Index(AppointmentInputModel appointment)
     {
         if (!ModelState.IsValid)
@@ -41,8 +41,8 @@ public class AppointmentsController : Controller
             appointment.Employee,
             appointment.Date,
             appointment.Time,
-            appointment.ClientName,
             appointment.Message,
+            appointment.ClientName,
             appointment.ClientEmail,
             appointment.ClientPhone,
             appointment.ServiceName,

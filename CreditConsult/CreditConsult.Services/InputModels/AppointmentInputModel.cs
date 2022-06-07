@@ -29,7 +29,7 @@ public class AppointmentInputModel
     [EmailAddress]
     public string ClientEmail { get; set; }
 
-    public string Message { get; set; }
+    public string? Message { get; set; }
 
     [Required]
     [MaxLength(100)]
