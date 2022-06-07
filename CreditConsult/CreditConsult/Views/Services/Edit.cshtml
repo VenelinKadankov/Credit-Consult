@@ -15,7 +15,7 @@
         </div>
 
         <div asp-validation-summary="All" class="text-danger"></div>
-        <form class="col-md-6 offset-md-3 service-form" method="post">
+        <form id="update" class="col-md-6 offset-md-3 service-form" method="post">
             <div class="form-group">
                 <label asp-for="Title">Title</label>
                 <input asp-for="Title" type="text" class="form-control" value="@Model.Title">
@@ -40,11 +40,26 @@
             </div>
 
             @*<button type="submit" class="btn appointment-btn rounded-pill">Update</button>*@
-            <button type="submit" asp-controller="Services" data-content="@Model" asp-action="Edit" asp-route-id="@Model.Id" asp-route-info="@Model" class="btn btn-danger rounded-pill mt-3" type="submit" class="btn appointment-btn rounded-pill">Update</button>
+            <button type="submit" id="submit" asp-controller="Services" data-content="@Model" asp-action="Edit" asp-route-id="@Model.Id" asp-route-info="@Model" class="btn btn-danger rounded-pill mt-3" type="submit" class="btn appointment-btn rounded-pill">Update</button>
         </form>
     </div>
 </section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $("#submit").click(function(e) {
+            e.preventDefault();
+            var data = $('#update').serialize();
+            $.ajax({
+                type: "PUT",
+                url: "/Services/Edit/@(Model.Id)?@Model",
+                data: data,
+                success: function(response) {
+                    window.location.href = "/Services/Index";
+                }
+            });
+        })
+    </script>
 }

@@ -28,16 +28,16 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 
 var allowedOrigins = "_myAllowSpecificOrigins";
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy(name: allowedOrigins,
-//                      policy =>
-//                      {
-//                          policy.WithOrigins("https://localhost:7293", "http://localhost:5293")
-//                           .AllowAnyHeader()
-//                           .AllowAnyMethod();
-//                      });
-//});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowedOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("https://localhost:7293", "http://localhost:5293")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                      });
+});
 
 builder.Services.Configure<CookiePolicyOptions>(
     options =>

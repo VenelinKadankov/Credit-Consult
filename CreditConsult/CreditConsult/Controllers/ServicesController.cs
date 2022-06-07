@@ -76,7 +76,7 @@ public class ServicesController : Controller
         return View(service);
     }
 
-    [HttpPost]
+    [HttpPut]
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Edit(int id, ServiceInputModel model)
     {
