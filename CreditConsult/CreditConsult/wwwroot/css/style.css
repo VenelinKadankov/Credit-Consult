@@ -35,3 +35,23 @@
 .appointment-btn:hover {
     color: #ffffff
 }
+
+.service-form{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.add-edit-service {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.service-img {
+    height: 30vh;
+}

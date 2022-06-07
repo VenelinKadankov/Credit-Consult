@@ -1,9 +1,10 @@
 ﻿namespace CreditConsult.Web.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using CreditConsult.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using CreditConsult.Services.InputModels;
 
 public class ServicesController : Controller
 {
@@ -27,10 +28,76 @@ public class ServicesController : Controller
 
         if (model == null || model.Title != info.Replace("-", " "))
         {
-            return this.BadRequest();
+            return BadRequest();
         }
 
-        return this.View(model);
+        return View(model);
+    }
+
+    [Authorize(Roles = "Administrator")]
+    public IActionResult Add()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> Add(ServiceInputModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var result = await _offeredService.Add(
+            model.Title,
+            model.Description,
+            model.Fee,
+            model.ImageUrl);
+
+        if (!result)
+        {
+            return BadRequest();
+        }
+
+        return RedirectToAction(nameof(this.Index));
+    }
+
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var service = _offeredService.GetService(id);
+
+        if (service == null)
+        {
+            return BadRequest();
+        }
+
+        return View(service);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> Edit(int id, ServiceInputModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var result = await _offeredService.Update(
+            id,
+            model.Title,
+            model.Description,
+            model.Fee,
+            model.ImageUrl);
+
+        if (!result)
+        {
+            return BadRequest();
+        }
+
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
@@ -44,6 +111,6 @@ public class ServicesController : Controller
             return BadRequest();
         }
 
-        return RedirectToAction(nameof(this.Index));
+        return RedirectToAction(nameof(Index));
     }
 }

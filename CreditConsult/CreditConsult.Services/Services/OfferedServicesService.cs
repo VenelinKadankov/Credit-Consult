@@ -2,12 +2,12 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 using CreditConsult.Data.Data;
 using CreditConsult.Data.Models;
 using CreditConsult.Services.Interfaces;
 using CreditConsult.Services.ViewModels;
-using Microsoft.EntityFrameworkCore;
 
 public class OfferedServicesService : IOfferedServicesService
 {
@@ -18,11 +18,11 @@ public class OfferedServicesService : IOfferedServicesService
         _context = context;
     }
 
-    public async Task Add(string title, string description, decimal price, string imageUrl)
+    public async Task<bool> Add(string title, string description, decimal price, string imageUrl)
     {
         if (_context.OfferedServices.Any(s => s.Title == title))
         {
-            return;
+            return false;
         }
 
         var currentTest = new OfferedService
@@ -36,6 +36,8 @@ public class OfferedServicesService : IOfferedServicesService
         await _context.OfferedServices.AddAsync(currentTest);
 
         await _context.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task AddEmployeeToService(string employeeId, int serviceId)
@@ -115,6 +117,30 @@ public class OfferedServicesService : IOfferedServicesService
         _context.OfferedServices
             .FirstOrDefault(n => n.Id == id)
             .IsDeleted = true;
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<bool> Update(int id, string title, string description, decimal price, string imageUrl)
+    {
+        if (title == null || description == null || imageUrl == null)
+        {
+            return false;
+        }
+
+        var service = _context.OfferedServices.FirstOrDefault(s => s.Id == id);
+
+        if (service == null)
+        {
+            return false;
+        }
+
+        service.Fee = price;
+        service.Title = title;
+        service.Description = description;
+        service.ImageUrl = imageUrl;
 
         await _context.SaveChangesAsync();
 

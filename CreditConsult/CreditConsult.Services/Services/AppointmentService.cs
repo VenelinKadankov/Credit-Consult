@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 using CreditConsult.Data.Data;
 using CreditConsult.Data.Models;
@@ -10,7 +11,6 @@ using CreditConsult.Services.InputModels;
 using CreditConsult.Services.Interfaces;
 using CreditConsult.Services.ViewModels;
 using CreditConsult.Services.ViewModels.ApiModels;
-using Microsoft.EntityFrameworkCore;
 
 public class AppointmentService : IAppointmentService
 {

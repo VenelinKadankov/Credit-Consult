@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using CreditConsult.Data.Data;
 using CreditConsult.Data.Models;
 
-internal class RolesSeeder : ISeeder
+public class RolesSeeder : ISeeder
 {
     public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
     {

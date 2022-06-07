@@ -1,6 +1,7 @@
 ﻿namespace CreditConsult.Data.Models;
 
 using System.ComponentModel.DataAnnotations;
+
 using CreditConsult.Data.Common;
 
 public class OfferedService : BaseModel<int>

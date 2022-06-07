@@ -4,11 +4,9 @@ using CreditConsult.Services.ViewModels;
 
 public interface IOfferedServicesService
 {
-    Task Add(
-       string title,
-       string description,
-       decimal price,
-       string imageUrl);
+    Task<bool> Add(string title, string description, decimal price, string imageUrl);
+
+    Task<bool> Update(int id, string title, string description, decimal price, string imageUrl);
 
     Task AddEmployeeToService(string employeeId, int serviceId);
 

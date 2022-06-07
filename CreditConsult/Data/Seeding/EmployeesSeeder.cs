@@ -39,10 +39,10 @@
             {
                 var user = new ApplicationUser
                 {
-                    UserName = $"{item}@mc.com",
+                    UserName = $"{item}@abv.bg",
                     Title = UserTitle.Consultant,
                     IsEmployee = true,
-                    Email = $"{item}@mc.com",
+                    Email = $"{item}@abv.bg",
                     EmailConfirmed = true,
                     PhoneNumber = $"{phone++}",
                     PhoneNumberConfirmed = true,

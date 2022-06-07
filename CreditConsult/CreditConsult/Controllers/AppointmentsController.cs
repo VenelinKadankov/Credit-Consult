@@ -26,16 +26,16 @@ public class AppointmentsController : Controller
     {
         var appointments = _appointmentsService.CreateEmptyAppointment();
 
-        return this.View(appointments);
+        return View(appointments);
     }
 
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> Index(AppointmentInputModel appointment)
     {
-        if (!this.ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            return this.View(appointment);
+            return View(appointment);
         }
 
         var isCreated = await _appointmentsService.CreateAppointment(
@@ -47,36 +47,36 @@ public class AppointmentsController : Controller
             appointment.ClientEmail,
             appointment.ClientPhone,
             appointment.ServiceName,
-            this.User.Identity.Name,
-            this.User.GetId());
+            User.Identity.Name,
+            User.GetId());
 
         if (!isCreated)
         {
-            this.TempData["InvalidData"] = "Invalid client details";
+            TempData["InvalidData"] = "Invalid client details";
 
-            return this.RedirectToAction(nameof(this.Index));
+            return RedirectToAction(nameof(Index));
         }
 
         var serviceModel = _offeredServicesService.GetService(appointment.ServiceName);
 
         if (serviceModel == null)
         {
-            return this.BadRequest();
+            return BadRequest();
         }
 
         var price = serviceModel.Fee;
 
-        this.TempData["AppointmentMessage"] = "You have successfully booked an appointment!";
+        TempData["AppointmentMessage"] = "You have successfully booked an appointment!";
 
-        return this.RedirectToAction(nameof(this.MyAppointments));
+        return RedirectToAction(nameof(MyAppointments));
     }
 
     [Authorize]
     public IActionResult MyAppointments()
     {
-        var appointments = _appointmentsService.MyAppointments(this.User.Identity.Name);
+        var appointments = _appointmentsService.MyAppointments(User.Identity.Name);
 
-        return this.View(appointments);
+        return View(appointments);
     }
 
     [HttpPost]
@@ -87,9 +87,9 @@ public class AppointmentsController : Controller
 
         if (!isRemoved)
         {
-            return this.BadRequest();
+            return BadRequest();
         }
 
-        return this.RedirectToAction(nameof(this.MyAppointments));
+        return RedirectToAction(nameof(MyAppointments));
     }
 }

@@ -1,0 +1,49 @@
+﻿@model ServiceInputModel
+@{
+    ViewData["Title"] = "Add";
+}
+
+<section class="add-edit-service">
+    <div class="section-title add-edit-service">
+        <h2>Offered services</h2>
+        <p>Add a new service</p>
+    </div>
+
+    <div>
+        <div id="pic" class="col-md-8 offset-md-2 text-center">
+            <img id="new-image" class="img-fluid " src="https://www.creditrepaircloud.com/hubfs/digital%20marketing%20for%20financial%20services%20.jpg">
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <form class="col-md-6 offset-md-3 service-form" method="post">
+            <div class="form-group">
+                <label asp-for="Title">Title</label>
+                <input asp-for="Title" type="text" class="form-control" placeholder="Example name....">
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description">Description</label>
+                <input asp-for="Description" type="text" class="form-control" placeholder="Example description....">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Fee">Price</label>
+                <input asp-for="Fee" class="form-control" rows="5">
+                <span asp-validation-for="Fee" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ImageUrl">Image</label>
+                <input asp-for="ImageUrl" type="text" class="form-control" placeholder="https:.....">
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn appointment-btn rounded-pill">Add</button>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

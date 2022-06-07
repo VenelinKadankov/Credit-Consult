@@ -1,4 +1,5 @@
 ﻿namespace CreditConsult.Services.InputModels;
+
 using System.ComponentModel.DataAnnotations;
 
 public class AppointmentInputModel

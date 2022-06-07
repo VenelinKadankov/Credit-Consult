@@ -31,14 +31,14 @@
             {
                 <div class="col-md-4">
                     <div class="card mb-3">
-                        <img class="card-img-top" src="@service.ImageUrl" alt="@service.Title">
+                        <img class="card-img-top service-img" src="@service.ImageUrl" alt="@service.Title">
                         <div class="card-body text-center">
-                            <h5 class="card-title text-center">@service.Title - @service.Fee</h5>
+                            <h5 class="card-title text-center">@service.Title - @service.Fee BGN</h5>
                             <a asp-controller="Services" asp-action="Service" asp-route-id="@service.Id" asp-route-info="@service?.Title?.Replace(" ", "-")" style="background-color: #5cb85c" class="btn appointment-btn rounded-pill mt-3">View More</a>
                             @if (this.User.IsInRole("Administrator"))
                             {
                                 <a asp-controller="Services" asp-action="Edit"  asp-route-id="@service.Id" asp-route-info="@service?.Title?.Replace(" ", "-")" class="btn btn-danger rounded-pill mt-3">Edit</a>
-                                <button asp-controller="Services" asp-action="Remove" asp-route-id="@service.Id" asp-route-info="@service?.Title?.Replace(" ", "-")" class="btn btn-danger rounded-pill mt-3">Remove</button>
+                                <button asp-controller="Services" onclick="confirm('Are you sure?')" asp-action="Remove" asp-route-id="@service.Id" asp-route-info="@service?.Title?.Replace(" ", "-")" class="btn btn-danger rounded-pill mt-3">Remove</button>
                             }
                         </div>
                     </div>
