@@ -5,14 +5,14 @@
     // var departments = this.Model.Departments.Select(x => new SelectListItem(x.Value, x.Key.ToString()));
 }
 
-<section>
+<section class="add-edit-service">
     @if (TempData.ContainsKey("InvalidData"))
     {
         <div class="alert alert-danger text-center" role="alert">
             @TempData["InvalidData"]
         </div>
     }
-    <div class="section-title mb-5">
+    <div class="section-title mb-5 add-edit-service">
         <h2>Appointments</h2>
         <p>Book and hour</p>
         <hr />
@@ -20,46 +20,23 @@
 
 
 
-    <div class="medilife-book-an-appoinment-area">
+    <div class="book-an-appoinment-area">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="appointment-form-content">
                         <div class="row no-gutters align-items-center">
                             <div class="col-12 col-lg-9">
-                                <div class="medilife-appointment-form">
-
-                                    @*@if (TempData.ContainsKey(MedicalCenter.Common.GlobalConstants.InvalidCredentials))
-                                    {
-                                    <div class="alert alert-danger text-center" role="alert">
-                                    @TempData[MedicalCenter.Common.GlobalConstants.InvalidCredentials]
-                                    </div>
-                                    }*@
-
-                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="appointment-form">
+                                    @*<div asp-validation-summary="All" class="text-danger"></div>*@
                                     <form asp-controller="Appointments" asp-action="Index" method="post" id="form-appointment">
                                         <div class="row align-items-end">
-                                           @* <div class="col-12 col-md-4">
-                                                <div class="form-group">*@
-
-                                                    @*                                                    <label asp-for="DepartmentName">Department</label>
-                                                    <select asp-for="DepartmentName" class="form-control" id="departments">
-                                                    @foreach (var department in departments)
-                                                    {
-                                                    <option value="@department.Value" id="@department.Value">@(department.Text == "NoDepartment" ? "-Department-" : @department.Text)</option>
-                                                    }
-                                                    </select>*@
-                                                    @*<span asp-validation-for="@Model.DepartmentName" class="text-danger"></span>*@
-                                            @*    </div>
-                                            </div>*@
                                             <div class="col-12 col-md-4" id="employees-div">
-                                                @*<div class="form-group">*@
                                                 <label asp-for="Employee">Consultant</label>
                                                 <select asp-for="Employee" class="form-control" id="employees">
                                                     <option>-Consultant-</option>
                                                 </select>
                                                 <span asp-validation-for="Employee" class="text-danger"></span>
-                                                @*</div>*@
                                             </div>
                                             <div class="col-12 col-md-2">
                                                 <label asp-for="Date">Date</label>
@@ -110,12 +87,13 @@
                                                 <div class="form-group mb-0">
                                                     <label asp-for="Message">Message</label>
                                                     <textarea asp-for="Message" class="form-control mb-0 border-top-0 border-right-0 border-left-0" id="message" cols="30" rows="10" placeholder="Message"></textarea>
-                                                    <span asp-validation-for="Message" class="text-danger"></span>
+                                                    @*<span asp-validation-for="Message" class="text-danger"></span>*@
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-5 mb-0">
                                                 <div class="form-group mb-0">
-                                                    <button type="submit" class="btn btn-primary medilife-btn rounded-pill">Make an Appointment</button>
+                                                    <button type="submit" asp-controller="Appointments" asp-action="Index"  data-content="@Model"
+                                                        class="btn btn-primary rounded-pill">Make an Appointment</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,18 +101,15 @@
                                 </div>
                             </div>
                             <div class="col-12 col-lg-3">
-                                <div class="medilife-contact-info">
-                                    <!-- Single Contact Info -->
+                                <div class="contact-info">
                                     <div class="single-contact-info mb-30">
                                         <i class="fa-solid fa-clock"></i>
                                         <p>Mon - Fri 09:00 - 17:00 <br>Saturday/Sunday CLOSED</p>
                                     </div>
-                                    <!-- Single Contact Info -->
                                     <div class="single-contact-info mb-30">
                                         <i class="fa-solid fa-envelope"></i>
                                         <p>0888 888 888 <br>creditConsult@abv.bg</p>
                                     </div>
-                                    <!-- Single Contact Info -->
                                     <div class="single-contact-info">
                                         <i class="fa-solid fa-map-pin"></i>
                                         <p> 8018 Zornitsa <br>Burgas</p>

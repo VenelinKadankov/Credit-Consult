@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using CreditConsult.Services.Interfaces;
-using CreditConsult.Services.Services;
 using CreditConsult.Services.InputModels;
 using CreditConsult.Web.Common.Extensions;
 
